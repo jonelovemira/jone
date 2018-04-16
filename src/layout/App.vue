@@ -37,7 +37,7 @@ export default {
 
     .middle-block {
         width: 1140px;
-        padding: 0;
+        padding: 0 0 100px;
         margin: 0 auto;
     }
 
