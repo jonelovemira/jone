@@ -1,25 +1,20 @@
-export default [
-    {
-        "name": "示例",
-        "path": "/welcome",
-        "active": true
-    },
-    {
-        "name": "布局",
-        "path": "/order"
-    },
-    {
-        "name": "我的工作台",
-        "sub": [
-            {
-                
-                "name": "选项1",
-                "path": "/option1"
-            },
-            {
-                "name": "选项2",
-                "path": "/option2"
-            }
-        ]
-    }
-]
+export default [{
+    "name": "首页",
+    "path": "/",
+    "active": true
+},{
+    "name": "读书笔记",
+    sub: [{
+        name: '前端',
+        path: '/front'
+    }, {
+        name: '后端',
+        path: '/back'
+    }, {
+        name: '计算机视觉',
+        path: '/cv'
+    }]
+},{
+    "name": "履历",
+    path: '/path'
+}]

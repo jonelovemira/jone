@@ -1,17 +1,15 @@
 <template>
                 
     <div class="middle-block">
-        <img src="../assets/telecom.png" width="50" style="float:left; margin-top:8px; margin-right:5px">
-        <span class="title-logo">中国电信AEP平台</span>
+        <span class="title-logo">徐忠勇的工作台</span>
         <div style="float:right;">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    个人中心<i class="el-icon-location-outline el-icon--right"></i>
+                    外链<i class="el-icon-location-outline el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>我的主页</el-dropdown-item>
-                    <el-dropdown-item>我的订单</el-dropdown-item>
-                    <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
+                    <el-dropdown-item>网易云音乐</el-dropdown-item>
+                    <el-dropdown-item>百度云盘</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
