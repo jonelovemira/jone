@@ -1,9 +1,9 @@
 {
-  "name": "@alogic/alogic-vue-common",
-  "version": "1.0.47",
-  "description": "AEP公共模块",
-  "author": "liuqiao <liuqiao@189.cn>",
-  "main": "src/main.js",
+  "name": "jone",
+  "version": "1.0.1",
+  "description": "all about jone",
+  "author": "zhongyongxu082@gmail.com",
+  "main": "src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
