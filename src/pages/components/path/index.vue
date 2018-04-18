@@ -4,7 +4,7 @@
             <el-col :span="6">
                 <div class="wrapper basic">
                     <div class="avatar">
-                        <img src="../../../assets/bm.png" width="150">
+                        <img src="../../../assets/avatar.png" width="150">
                     </div>
                     <div class="name">
                         <h2>徐忠勇</h2>
@@ -48,6 +48,11 @@
                         <div class="line"></div>
                         <project></project>
                     </div>
+                    <div class="project">
+                        <h2>知识积累</h2>
+                        <div class="line"></div>
+                        <share></share>
+                    </div>
                     <div class="experience">
                         <h2>就职经历</h2>
                         <div class="line"></div>
@@ -76,12 +81,13 @@
 
 <script type="text/javascript">
     import project from './project';
+    import share from './share';
     import exper from './exper';
     import tech from './tech';
     import reading from './reading';
     import education from './education';
     export default {
-        components: {project, exper, tech, reading, education}
+        components: {share, exper, tech, reading, education, project}
     }
 </script>
 
@@ -128,6 +134,7 @@
 
     .line {
         border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
     }
 
     .holder-image {
@@ -149,6 +156,10 @@
 
     .el-form-item {
         margin: 0;
+    }
+
+    h2 {
+        margin-bottom: 0px;
     }
 
     // .holder {
