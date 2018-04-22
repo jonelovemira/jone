@@ -51,9 +51,11 @@
         text-align: right;
         font-size: 16px;
         .t {
-            color: #666;
-            background: #ddd;
+            color: #578CB8;
+            // background: #ddd;
             border-radius: 4px;
+            padding: 0px 5px;;
+            border: solid #578CB8 1px;
         }
     }
 
