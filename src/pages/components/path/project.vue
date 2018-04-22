@@ -2,7 +2,7 @@
     <div>
         <div v-for="(e, index) in arr" :key="index">
             <el-row>
-                <el-col :span="16">
+                <el-col class="record-name" :span="16">
                     {{e.name}}
                 </el-col>
                 <el-col class="interval" :span="8">
@@ -69,5 +69,11 @@
 <style lang="scss" scoped>
     .interval {
         text-align: right;
+    }
+
+    .record-name {
+        border-left: 3px solid #578CB8;
+        padding-left: 10px;
+        font-weight: bold;
     }
 </style>

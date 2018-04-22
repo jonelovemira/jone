@@ -48,7 +48,7 @@
                         <div class="line"></div>
                         <project></project>
                     </div>
-                    <div class="project">
+                    <div class="share">
                         <h2>知识积累</h2>
                         <div class="line"></div>
                         <share></share>
@@ -128,6 +128,16 @@
 
             .detail {
                 padding-left: 30px;
+
+                .record-name {
+                    border-left: 3px solid #578CB8;
+                    padding-left: 10px;
+                    font-weight: bold;
+                }
+            }
+
+            .detail > div {
+                margin-bottom: 40px;
             }
         }
     }
@@ -160,6 +170,8 @@
 
     h2 {
         margin-bottom: 0px;
+        color: #666;
+        margin-top: 0px;
     }
 
     // .holder {

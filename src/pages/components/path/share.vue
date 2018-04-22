@@ -2,7 +2,7 @@
     <div>
         <div v-for="(p, index) in arr" :key="index">
             <el-row>
-                <el-col class="name" :span="8">
+                <el-col class="record-name" :span="8">
                     {{p.name}}
                 </el-col>
                 <el-col class="tech" :span="16">
@@ -46,10 +46,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .name {
-        font-size: 18px;
-        font-weight: bold
-    }
 
     .tech {
         text-align: right;
@@ -59,5 +55,11 @@
             background: #ddd;
             border-radius: 4px;
         }
+    }
+
+    .record-name {
+        border-left: 3px solid #578CB8;
+        padding-left: 10px;
+        font-weight: bold;
     }
 </style>
