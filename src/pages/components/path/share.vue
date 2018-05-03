@@ -21,19 +21,15 @@
             return {
                 arr: [{
                     name: 'paspLay',
-                    note: '基于 elmentui, 内部项目脚手架。',
+                    note: '为团队制作的一个基础的布局框架。它提供以下能力：1. 支持带侧边栏和不带侧边栏两种风格；2. 提供axios的封装；3.可定制侧边栏和顶部栏菜单；4.提供左侧栏激活和面包屑算法；5.作为一个npm库可以随时拓展通用性工具。',
                     t: ['vue', 'webpack', 'elmentui', 'es6']
                 }, {
                     name: 'Thooka',
-                    note: '前端 ui 组件化库。',
+                    note: '前端 ui 组件化库。将几乎所有UI组件封装成库，发布到npm私服库中，模块解耦加强团队协作，同时消费方可以按需安装组件。',
                     t: ['angular','webpack', 'bootstrap', 'npm']
                 }, {
-                    name: 'weaGo',
-                    note: '基于 angular 的内部脚手架。',
-                    t: ['webpack', 'es6', 'angular', 'bootstrap']
-                }, {
                     name: 'xAjax',
-                    note: '多客户端环境跨域请求工具',
+                    note: '基于jquery，开发出的多客户端环境跨域请求组件。支持到IE8',
                     t: ['jquery']
                 }, {
                     name: 'Zabimoni',
