@@ -2,7 +2,11 @@
     <div>
         <el-tabs type="border-card">
             <el-tab-pane label="初始值">
-                <div>{{content}}</div>
+                <el-input
+                    v-model="content"
+                    type="textarea"
+                    :autosize="true"
+                    ></el-input>
             </el-tab-pane>
             <el-tab-pane label="预览">
                 <div v-html="markedContent"></div>
