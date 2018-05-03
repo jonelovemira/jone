@@ -2,19 +2,20 @@
     <el-menu
         v-if="hasMenu"
         :default-active="activeIndex"
-        :router="true"
-        @select="handleSelect">
+        :unique-opened="true"
+        @select="handleSelect"
+        class="my-menu">
         <el-menu-item
             v-for="(n, index) in sidebars"
             v-if="!n.sub"
-            :index="'' + index"
+            :index="n.menuKey"
             :key="index"
             :route="{path: n.path, name: n.route_name, params: n.params}">
             {{n.name}}
-        ></el-menu-item>
+        </el-menu-item>
         <el-submenu
             v-else
-            :index="'' + index"
+            :index="n.menuKey"
         >
             <template slot="title">
                 {{n.name}}
@@ -23,7 +24,7 @@
                 v-for="(sub, sub_index) in n.sub"
                 v-if="!sub.sub && !sub.group"
                 :route="{path: sub.path,name: sub.route_name, params: sub.params}"
-                :index="`${index}-${sub_index}`"
+                :index="sub.menuKey"
                 :key="`${index}-${sub_index}`">
                 {{sub.name}}
             </el-menu-item>
@@ -34,7 +35,7 @@
                 <template slot="title">{{sub.name}}</template>
                 <el-menu-item
                     v-for="(subsub, subsub_index) in sub.group"
-                    :index="`${index}-${sub_index}-${subsub_index}`"
+                    :index="subsub.menuKey"
                     :route="{path: subsub.path,name: subsub.route_name, params: subsub.params}"
                     :key="`${index}-${sub_index}-${subsub_index}`"
                 >{{subsub.name}}</el-menu-item>
@@ -42,7 +43,7 @@
             <el-submenu
                 v-for="(sub, sub_index) in n.sub"
                 v-if="sub.sub"
-                :index="`${index}-${sub_index}`"
+                :index="sub.menuKey"
                 :key="`${index}-${sub_index}`"
             >
                 <template slot="title">
@@ -50,7 +51,7 @@
                 </template>
                 <el-menu-item
                     v-for="(subsub, subsub_index) in sub.sub"
-                    :index="`${index}-${sub_index}-${subsub_index}`"
+                    :index="subsub.menuKey"
                     :route="{path: subsub.path,name: subsub.route_name, params: subsub.params}"
                     :key="`${index}-${sub_index}-${subsub_index}`"
                 >{{subsub.name}}</el-menu-item>
@@ -64,87 +65,99 @@
         active先判断当前路由，如果没有找到则使用配置项中的active=true项。
     */
     export default {
-        name: 'sidebar',
+        name: 'CtySidebar',
         props: ['sidebars'],
         computed: {
             activeIndex() {
-                let currentPath = this.$route.path;
-
-                let getResultIndex = function(origin, postfix) {
-                    if (origin.length == 0) {
-                        return postfix + '';
-                    }
-                    return origin + '-' + postfix;
-                };
-                let searchActiveInNode = function(node, prefix, checkActive) {
-
-                    for (let i = 0, l = node.length; i < l; i++) {
-                        let index = getResultIndex(prefix, i);
-                        if (checkActive(node[i])) {
-                            return index;
-                        }
-
-                        if (node[i].sub) {
-                            let newIndex = searchActiveInNode(node[i].sub, index, checkActive);
-                            if (newIndex && newIndex != index) {
-                                return newIndex;
-                            }
-                        }
-
-                        if (node[i].group) {
-                            let newIndex = searchActiveInNode(node[i].group, index, checkActive);
-                            if (newIndex && newIndex != index) {
-                                return newIndex;
-                            }
-                        }
-                    }
-                };
-
-                let checkActiveByFlag = function (node) {
-                    if (node && node.active) {
-                        return true;
-                    }
-                    return false;
-                }
-
-                let activeIndex = searchActiveInNode(this.sidebars, '', this.checkActiveByPath);
-                if (!activeIndex) {
-                    activeIndex = searchActiveInNode(this.sidebars, '', checkActiveByFlag);
-                }
-                return activeIndex;
+                let menuKey = this.$route.meta.menuKey;
+                let result = this.getMenukey(menuKey);
+                return result;
             },
             hasMenu(){
                 return this.sidebars.length > 0;
             }
         },
         methods: {
-            handleSelect(key, keyPath){
-                // console.log(key, keyPath);
+            getMenukey(menuKey) {
+                let result = '';
+                if (typeof menuKey === 'string') {
+                    result = menuKey;
+                } else {
+                    if (typeof menuKey === 'function') {
+                        result = menuKey(this.$route);
+                    } else {
+                        console.info('unknow type of meta.menuKey in router obj');
+                    }
+                };
+                return result;
             },
-            checkActiveByPath(node) {
-                let result = false;
-
-                if (node.path || node.route_name) {
-                    let routeNode = {
-                        name: node.route_name,
-                        path: node.path,
-                        params: node.params
-                    };
-
-                    let route = this.$router.resolve(routeNode);
-
-                    if (route && route.route) {
-                        if (this.$route.name) {
-                            result = route.route.name == this.$route.name;
+            handleSelect(index, indexPath) {
+                let targetRoute = {}, arr = this.sidebars;
+                indexPath.forEach(key => {
+                    arr = this.findRouteByMenuKey(arr, key); 
+                });
+                if (arr.length > 0) {
+                    targetRoute = {
+                        path: arr[0].path,
+                        name: arr[0].route_name,
+                        params: arr[0].params
+                    }
+                };
+                if (targetRoute) {
+                    let resolved = this.$router.resolve(targetRoute);
+                    if (resolved) {
+                        if (this.isCurrentPage(resolved.route, this.$route)) {
+                            this.$emit('reload');
                         } else {
-                            result = route.route.path == this.$route.path;
+                            this.$router.push(targetRoute);
                         }
                     }
+                }
+            },
+            isCurrentPage(to, from) {
+                let result = false;
 
+                if (to.name == from.name) {
+                    let toParams = to.params, fromParams = from.params, 
+                        toQuery = to.query, fromQuery = from.query;
+
+                    if (this.isLogicEqual(toParams, fromParams) && 
+                        this.isLogicEqual(toQuery, fromQuery)) {
+                        result = true;
+                    }
+                    
+                }
+
+                return result;
+            },
+            isLogicEqual(obj1, obj2) {
+                let result = false, arr1 = Object.keys(obj1), 
+                    arr2 = Object.keys(obj2);
+
+                if (arr1.length == arr2.length) {
+                    result = true;
+                    arr1.forEach(key => {
+                        if (obj1[key] != obj2[key]) {
+                            result = false;
+                        }
+                    });
                 };
 
                 return result;
-                
+            },
+            findRouteByMenuKey(arr, key) {
+                let result = [];
+                arr.forEach(item => {
+                    let menuKey = this.getMenukey(item.menuKey);
+                    if (menuKey == key) {
+                        if (item.sub) {
+                            result = item.sub;
+                        } else {
+                            result = [item];
+                        }
+                    }
+                });
+                return result;
             }
         }
     }
